@@ -1,4 +1,5 @@
 import arcade.key
+from random import randint
 DIR_UP = 1
 DIR_RIGHT = 2
 DIR_DOWN = 3
@@ -47,25 +48,32 @@ class Snake:
         self.wait_time = 0
         self.body = [(self.x,self.y)] + self.body
         self.body.pop()
+
+class Heart:
+    def __init__(self, world):
+        self.world = world
+        self.x = 0
+        self.y = 0
  
+    def random_position(self):
+        centerx = self.world.width // 2
+        centery = self.world.height // 2
+ 
+        self.x = centerx + randint(-15,15) * Snake.BLOCK_SIZE
+        self.y = centerx + randint(-15,15) * Snake.BLOCK_SIZE
+
 class World:
     def __init__(self, width, height):
         self.width = width
         self.height = height
  
         self.snake = Snake(self, width // 2, height // 2)
- 
+        self.heart = Heart(self)
+        self.heart.random_position()
 
-    def on_key_press(self, key, key_modifiers):
-        if key == arcade.key.RIGHT:
-            self.snake.direction = DIR_RIGHT
-        if key == arcade.key.LEFT:
-            self.snake.direction = DIR_LEFT
-        if key == arcade.key.UP:
-            self.snake.direction = DIR_UP
-        if key == arcade.key.DOWN:
-            self.snake.direction = DIR_DOWN    
-
-
+    def on_key_press(self, key, key_modifiers): 
+        self.snake.direction = KEY_OFFSET[key]
+         
     def update(self, delta):
         self.snake.update(delta)
+
