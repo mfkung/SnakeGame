@@ -27,7 +27,8 @@ class SnakeWindow(arcade.Window):
         self.snake_sprite = ModelSprite('images/block.png',
                                         model=self.world.snake)
         self.snake_sprite.set_position(300,300)
- 
+    def on_key_press(self, key, key_modifiers):
+        self.world.on_key_press(key, key_modifiers)
  
     def update(self, delta):
         self.world.update(delta)
