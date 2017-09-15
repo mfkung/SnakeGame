@@ -45,10 +45,12 @@ class Snake:
         self.x += DIR_OFFSET[self.direction][0] * Snake.BLOCK_SIZE
         self.y += DIR_OFFSET[self.direction][1] * Snake.BLOCK_SIZE
         
-        self.wait_time = 0
         self.body = [(self.x,self.y)] + self.body
         self.body.pop()
-
+        self.wait_time = 0
+    def can_eat(self, heart):
+        if(self.x == heart.x and self.y == heart.y):
+            return True
 class Heart:
     def __init__(self, world):
         self.world = world
@@ -76,4 +78,5 @@ class World:
          
     def update(self, delta):
         self.snake.update(delta)
-
+        if self.snake.can_eat(self.heart):
+            self.heart.random_position()    
